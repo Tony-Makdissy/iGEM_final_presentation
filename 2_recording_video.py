@@ -14,8 +14,8 @@ chimera.run(session, "view full_capsid_view")
 chimera.run(session, "movie record")
 
 # roll the structure for n cycles with m degree per frame
-cycles = 2 # default 2
-degree_per_frame = 10 # default 4
+cycles = 5 # default 2
+degree_per_frame = 12 # default 4
 total_frames = cycles * 360 // degree_per_frame
 chimera.run(session, f"roll y {degree_per_frame} {total_frames}")
 chimera.run(session, f"wait {total_frames}")
@@ -32,6 +32,11 @@ chimera.run(session, "show #2 models")
 chimera.run(session, f"crossfade {total_frames}; hide #1 models")
 chimera.run(session, f"wait {total_frames}")
 
+# just wait
+total_frames = 25
+chimera.run(session, f"wait {total_frames}")
+
+
 # zoom in to the trimmed structure
 total_frames = 50
 chimera.run(session, f"fly {total_frames} start trimmed_view")
@@ -42,11 +47,9 @@ total_frames = 50
 chimera.run(session, f"crossfade {total_frames}; hide ~trimmed_sel")
 chimera.run(session, f"wait {total_frames}")
 
-# delete me later
-chimera.run(session, "show all models")
-chimera.run(session, "hide ~trimmed_sel")
-chimera.run(session, "view trimmed_view")
-chimera.run(session, f"wait 1")
+# just wait
+total_frames = 25
+chimera.run(session, f"wait {total_frames}")
 
 
 # add the binder
@@ -63,19 +66,22 @@ chimera.run(session, "show trimmed_sel surface")
 # color the binder
 chimera.run(session, "show #3 atoms")
 chimera.run(session, "style #3 sphere")
-chimera.run(session, "color #3 #5a52eb")
+chimera.run(session, "color #3 conflower blue")
 # chimera.run(session, "wait 1")
 
 
 # let the binder move to the receptor
-total_frames = 50
+total_frames = 100
 for _ in range(total_frames):
     chimera.run(session, f"move z -{binder_displacement / total_frames} models #3")
     chimera.run(session, f"wait 1")
 
+# just wait
+total_frames = 25
+chimera.run(session, f"wait {total_frames}")
 
 # hide the binder
-total_frames = 50
+total_frames = 25
 chimera.run(session, f"crossfade {total_frames};hide #3 atoms; show #3 cartoon; transparency #3 50 target all")
 chimera.run(session, f"wait {total_frames}")
 
@@ -92,6 +98,10 @@ max_radius = 5
 for i in range(total_frames+1, 0, -1):
     chimera.run(session, f"color zone sel near #3 distance {max_radius/i}")
     chimera.run(session, f"wait 1")
+
+# just wait
+total_frames = 50
+chimera.run(session, f"wait {total_frames}")
 
 # stop recording
 chimera.run(session, "movie encode test.mp4")
